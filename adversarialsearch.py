@@ -1,4 +1,5 @@
 from typing import Callable
+import numpy as np 
 
 from adversarialsearchproblem import (
     Action,
@@ -6,31 +7,102 @@ from adversarialsearchproblem import (
     State as GameState,
 )
 
-
-def minimax(asp: AdversarialSearchProblem[GameState, Action]) -> Action:
-    """
+"""
     Implement the minimax algorithm on ASPs, assuming that the given game is
     both 2-player and constant-sum.
-
     Input:
         asp - an AdversarialSearchProblem
     Output:
         an action (an element of asp.get_available_actions(asp.get_start_state()))
     """
-    ...
+def minimax(asp: AdversarialSearchProblem[GameState, Action]) -> Action:
+    """
+    important functions
+    asp
+        get_start_state()
+        transition(state, action)
+        is_terminal_state(state) = is terminal
+        evaluate_terminal(state) = utility
+        get_available_actions(state) = actions
+    state
+        player_to_move()
+    """
+    start_state = asp.get_start_state() 
+    player = start_state.player_to_move()  
+    value, move = max_value(asp, start_state, player)
+    
+    return move
+
+    
+def max_value(asp, state, player):
+    if asp.is_terminal_state(state):
+        return asp.evaluate_terminal(state)[player], None
+    maxEval = -np.inf
+
+    for action in asp.get_available_actions(state):
+        next_state = asp.transition(state, action)
+        value, action2 = min_value(asp, next_state, player)
+        if value > maxEval:
+            maxEval = value  
+            best_action = action
+    return maxEval, best_action
+
+
+def min_value(asp, state, player):
+    if asp.is_terminal_state(state):
+        return asp.evaluate_terminal(state)[player], None
+    minEval = np.inf
+
+    for action in asp.get_available_actions(state):
+        next_state = asp.transition(state, action)
+        value, action2 = max_value(asp, next_state, player)
+        if value < minEval:
+            minEval = value
+            best_action = action
+    return minEval, best_action 
+
+    
 
 
 def alpha_beta(asp: AdversarialSearchProblem[GameState, Action]) -> Action:
     """
     Implement the alpha-beta pruning algorithm on ASPs,
     assuming that the given game is both 2-player and constant-sum.
-
+##code here##
     Input:
         asp - an AdversarialSearchProblem
     Output:
         an action(an element of asp.get_available_actions(asp.get_start_state()))
     """
     ...
+
+    minimax(currentPosition, 3, -infinity, +infinity, true)
+
+
+#below is the pseudo code from the video, which is probably useless 
+#function alpha_beta(position, depth, alpha, beta, maximizingPlayer)
+    #if depth == 0 or game over in position
+        #return static evaluation of position
+    
+    #if maximizingPlayer
+        #maxEval = -infinity
+        #for each child of position
+            #eval = minimax(child, depth -1, alpha, beta, false)
+            #maxEval = max(maxEval, eval)
+            #alpha = max(alpha, eval)
+            #if beta <= alpha
+                #break
+        #return maxEval
+    
+    #else
+        #minEval = +infinity
+        #for each child of position
+            #eval = minimax(child, depth - 1, alpha, beta, true)
+            #minEval = min(minEval, eval)
+            #beta = min(beta, eval)
+            #if beta <= alpha
+                #break
+        #return minEval
 
 
 def alpha_beta_cutoff(
