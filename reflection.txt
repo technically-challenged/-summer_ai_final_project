@@ -1,0 +1,27 @@
+Julia Forrester
+Benedict Quartey 
+Artificial Intelligence pre-college 
+July 29 2023
+
+
+                                    Reflection for minimax code
+    
+    The problem I was trying to solve was using a minimax algorithm to win a game of tic tac toe. 
+I did this by using pseudo code from a provided book chapter and with the help of the TAs. 
+
+    One of the most major choices that I made was splitting the minimax algorithm into 3 different 
+functions; a main minimax function, a max_value function, and a min_value function. I did this 
+because the book chapter split the algorithm up the same way, and I aimed to translate the given 
+pseudo code as closely as possible so as to not confuse myself during the process.  
+
+    The system that I implemented works very well. Each time I have played the algorithm it has either 
+won or tied. When I ran the minimax against itself, it would play the same moves every time I re-ran 
+the code, which demonstrates that its calculations are consistent. 	 
+
+    Given the fact that I learned all of the knowledge I have of python in the past 3 weeks, I think 
+the method I chose of relying very heavily on the pseudo code was very appropriate given the task. If 
+I were to do a similar project in the future I would aim to write my own pseudo code that I understand 
+more in depth so the transition to python is smoother. If I had more time I would have liked to try 
+alpha-beta pruning, and be able to compare that to the minimax algorithm that I have now. To my 
+knowledge, there are no ethical implications of any variety in my code. 
+
